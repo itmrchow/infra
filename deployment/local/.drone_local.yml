@@ -24,6 +24,3 @@ steps:
     image: alpine:latest 
     commands:
       - echo "mirror to gitlab"
-  
-
-  
