@@ -1,0 +1,73 @@
+version: "3"
+services:
+  drone:
+    image: drone/drone:2
+    container_name: drone.server
+    restart: always
+    ports:
+      - 8081:80 #對外的port
+    networks:
+      - drone
+    volumes:
+      - ./:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    environment:
+      DRONE_GITHUB_SERVER: https://github.com
+      DRONE_GITHUB_CLIENT_ID: ${DRONE_GITHUB_CLIENT_ID}
+      DRONE_GITHUB_CLIENT_SECRET: ${DRONE_GITHUB_CLIENT_SECRET}
+
+      DRONE_SERVER_HOST: ${DRONE_SERVER_HOST} #domain，填與 github、gitlab callback url 一樣即可
+      DRONE_SERVER_PROTO: ${DRONE_SERVER_PROTO} #與外界溝通使用 https
+      DRONE_RPC_SECRET: ${DRONE_RPC_SECRET} #drone rpc token
+      # gitlab config
+      # DRONE_GITLAB_SERVER: https://gitlab.com
+      # DRONE_GITLAB_CLIENT_ID: ${DRONE_GITLAB_CLIENT_ID} #gitlab OAuth 提供的 client id
+      # DRONE_GITLAB_CLIENT_SECRET: ${DRONE_GITLAB_CLIENT_SECRET} #gitlab OAuth 提供的 client secret
+      # log, for debug use
+      DRONE_DEBUG: true
+      DRONE_LOGS_PRETTY: true
+      DRONE_LOGS_COLOR: true
+      DRONE_LOGS_TRACE: false
+    
+  drone-runner:
+    image: drone/drone-runner-docker:1.8.2
+    container_name: drone.runner
+    restart: always
+    networks:
+      - drone
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    environment:
+      DRONE_RPC_HOST: drone
+      DRONE_RPC_SECRET: ${DRONE_RPC_SECRET} #drone rpc token
+      DRONE_RPC_PROTO: http # 與 drone server 是透過 docker 內網溝通，使用 http 即可
+      DRONE_RUNNER_CAPACITY: 5
+      DRONE_RUNNER_NAME: drone-docker-runner
+      # log, for debug use
+      DRONE_DEBUG: true
+      DRONE_LOGS_PRETTY: true
+      DRONE_LOGS_COLOR: true
+      DRONE_LOGS_TRACE: false
+      
+
+networks:
+  drone:
+    name: drone
+    driver: bridge

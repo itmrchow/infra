@@ -1,0 +1,29 @@
+# 指定 pipeline，且由 docker runner 執行
+kind: pipeline
+type: docker
+name: github-push-gitlab # 可自行定義的名稱
+
+trigger:
+  branch:
+    - feature/drone # 指定觸發的 branch
+  event:
+    - push
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: dummy-step # 新增的假步驟
+    image: alpine:latest # 使用輕量級的 alpine 映像
+    commands:
+      - echo "這是一個假的步驟，什麼都不做"
+
+# mirror to gitlab
+  - name: mirror to gitlab 
+    image: alpine:latest 
+    commands:
+      - echo "mirror to gitlab"
+  
+
+  

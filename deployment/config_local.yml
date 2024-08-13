@@ -1,0 +1,51 @@
+## __________________________________________
+## __________________________________________
+# -1 : 系統維護中 ; -10 : tester ,  -9 : local 開發使用 , -8 : ut ,  0 : relese , 1 : test  , 2 : pre
+mode: -9
+mode_description: 系统升级中
+
+## __________________________________________
+# log 日誌紀錄
+log:
+  # 輸出等級  (0 -> Debug | 1 -> Info | 2 -> Warn | 3 -> Error), Connection,Request 與 Info同級！
+  level: 0
+  # 輸出位置  0 : shell  , 1 : file
+  stdout: 0
+  # 切分(MB)
+  maxsize: 1024
+  # 儲存位置"
+  dir: "/var/log/"
+
+# ___________________________________________
+# 服務對外 port
+http_public_port: ":8080"
+http_internal_port: ":8347"
+grpc_port: ":2022"
+pprof_port: ":6060"
+
+## __________________________________________
+
+### 数据库配置 ----------------------------------------
+mysql:
+  url: "83b6af68e543f0c01bd2c5d71c1aa73f@tcp(services-mysql:3306)/"
+  url_slaves:
+    - "83b6af68e543f0c01bd2c5d71c1aa73f@tcp(services-mysql:3306)/"
+  url_suffix: "?allowNativePasswords=true&parseTime=true&charset=utf8mb4"
+  db_account: "account_local"
+
+# redis
+redis:
+  account_addrs:
+    - services-redis-cluster:7000
+    - services-redis-cluster:7001
+    - services-redis-cluster:7002
+    - services-redis-cluster:7003
+    - services-redis-cluster:7004
+    - services-redis-cluster:7005
+  account_password: ""
+
+## __________________________________________
+# 加密
+hash:
+  jwt_secret: 9eb4119f13a68713a6e615c92d14bfe5
+  expire_at: 8

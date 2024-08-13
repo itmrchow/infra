@@ -1,0 +1,6 @@
+FROM alpine:3.19.2
+RUN apk add tzdata
+WORKDIR /app
+COPY main-account /app
+RUN mkdir -p var/log
+ENTRYPOINT ["./main-account"]

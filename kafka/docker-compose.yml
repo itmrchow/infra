@@ -5,6 +5,8 @@ services:
     image: 'bitnami/zookeeper:latest'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - kafka-network
     ports:
       - '2181:2181'
 
@@ -19,6 +21,11 @@ services:
       - '9092:9092'
     volumes:
       - ./kafka-data:/bitnami/kafka
+    networks:
+      - kafka-network
     depends_on:
       - zookeeper
 
+networks:
+  kafka-network:
+    external: true
