@@ -1,6 +1,8 @@
 */kafka-data
 .env
-database.sqlite     
+*.sqlite
+
+
 
 
 
