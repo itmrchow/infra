@@ -30,6 +30,7 @@ steps:
     commands:
       - echo [clone mirror start]
       - echo [Test env] $DRONE_RPC_HOST
+      - echo [Test env] $DRONE_SERVER_HOST
       - export GITHUB_REPO_URL=https://$GITHUB_REPO
       - export GITLAB_REPO_URL=https://$GITLAB_USERNAME:$GITLAB_ACCESS_TOKEN@$GITLAB_REPO
       - echo GITHUB_REPO_URL=$GITHUB_REPO_URL
