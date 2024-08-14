@@ -22,22 +22,18 @@ steps:
 # mirror to gitlab
   - name: mirror to gitlab 
     image: alpine:latest
-    environment:
+    environment: # 移到Secrets
       GITHUB_REPO: github.com/itmrchow/infra.git
       GITLAB_REPO: gitlab.com/jefftestmirror/infra2.git
       GITLAB_USERNAME: jeff.wu4
       GITLAB_ACCESS_TOKEN: glpat-PRWQvEbnTW1pajF_Hz2U
     commands:
       - echo "[clone mirror start]"
-      - echo "[Test env]" $DRONE_RPC_HOST
-      - echo "[Test env]" $DRONE_SERVER_HOST
       - export GITHUB_REPO_URL=https://$GITHUB_REPO
       - export GITLAB_REPO_URL=https://$GITLAB_USERNAME:$GITLAB_ACCESS_TOKEN@$GITLAB_REPO
-      - echo GITHUB_REPO_URL=$GITHUB_REPO_URL
-      - echo GITLAB_REPO_URL=$GITLAB_REPO_URL
       - apk add git
       - git clone --bare $GITHUB_REPO_URL ./bare.git
       - cd ./bare.git
       - git remote add gitlab $GITLAB_REPO_URL
       - git push gitlab --mirror
-      - echo "[cloen mirror finish]"
+      - echo "[clone mirror finish]"
