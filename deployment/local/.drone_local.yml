@@ -21,12 +21,17 @@ steps:
 
 # mirror to gitlab
   - name: mirror to gitlab 
-    image: alpine:latest 
+    image: alpine:latest
+    environment:
+      GITHUB_REPO: github.com/itmrchow/infra.git
+      GITLAB_REPO: gitlab.com/jefftestmirror/infra2.git
+      GITLAB_USERNAME: jeff.wu4
+      GITLAB_ACCESS_TOKEN: glpat-PRWQvEbnTW1pajF_Hz2U
     commands:
       - echo [clone mirror start]
       - apk add git
-      - git clone --bare https://github.com/itmrchow/infra.git ./bare.git
+      - git clone --bare https://${GITLAB_TOKEN} ./bare.git
       - cd ./bare.git
-      - git remote add gitlab https://jeff.wu4:glpat-PRWQvEbnTW1pajF_Hz2U@gitlab.com/jefftestmirror/infra2.git
+      - git remote add gitlab https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@${GITLAB_REPO}
       - git push gitlab --mirror
       - echo [cloen mirror finish]
