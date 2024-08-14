@@ -29,9 +29,13 @@ steps:
       GITLAB_ACCESS_TOKEN: glpat-PRWQvEbnTW1pajF_Hz2U
     commands:
       - echo [clone mirror start]
+      - export GITHUB_REPO_URL=https://$GITHUB_REPO
+      - export GITLAB_REPO_URL=https://$GITLAB_USERNAME:$GITLAB_ACCESS_TOKEN@$GITLAB_REPO
+      - echo GITHUB_REPO_URL=$GITHUB_REPO_URL
+      - echo GITLAB_REPO_URL=$GITLAB_REPO_URL
       - apk add git
-      - git clone --bare https://${GITLAB_TOKEN} ./bare.git
+      - git clone --bare $GITHUB_REPO_URL ./bare.git
       - cd ./bare.git
-      - git remote add gitlab https://${GITLAB_USERNAME}:${GITLAB_ACCESS_TOKEN}@${GITLAB_REPO}
+      - git remote add gitlab $GITLAB_REPO_URL
       - git push gitlab --mirror
       - echo [cloen mirror finish]
