@@ -29,6 +29,7 @@ steps:
       GITLAB_ACCESS_TOKEN: glpat-PRWQvEbnTW1pajF_Hz2U
     commands:
       - echo [clone mirror start]
+      - echo [Test env] $DRONE_RPC_HOST
       - export GITHUB_REPO_URL=https://$GITHUB_REPO
       - export GITLAB_REPO_URL=https://$GITLAB_USERNAME:$GITLAB_ACCESS_TOKEN@$GITLAB_REPO
       - echo GITHUB_REPO_URL=$GITHUB_REPO_URL
